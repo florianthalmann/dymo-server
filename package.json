@@ -1,0 +1,25 @@
+{
+  "name": "dymo-server",
+  "version": "0.0.1",
+  "description": "A server app that generates dymos",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/florianthalmann/dymo-server.git"
+  },
+  "author": "florian thalmann",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/florianthalmann/dymo-server/issues"
+  },
+  "homepage": "https://github.com/florianthalmann/dymo-server#readme",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "express": "^4.13.4",
+    "xmlhttprequest": "^1.8.0"
+  }
+}

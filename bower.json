@@ -1,0 +1,22 @@
+{
+  "name": "dymo-server",
+  "version": "0.0.1",
+  "description": "A server app that generates dymos",
+  "homepage": "https://github.com/florianthalmann/dymo-server",
+  "main": "server.js",
+  "moduleType": [],
+  "authors": [
+    "florian thalmann"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "dymo-generator": "~0.1.2"
+  }
+}
