@@ -17,7 +17,8 @@
 	
 	var express = require('express');
 	var bodyParser = require('body-parser');
-	var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+	var request = require('request');
+	var XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 	
 	var app = express();
 	var PORT = 8090;
@@ -26,7 +27,27 @@
 	app.use('/features', express.static(__dirname + '/features'));
 	
 	//a first test dymo generator
-	app.get('/', function(req, res) {
+	app.get('/apitest', function(req, res) {
+		var apiUri = 'http://localhost:8070/';
+		var feature = 'afv:BarandBeatTracker';
+		request(apiUri + 'findNearestTracks?valence=0.1&arousal=0.5&limit=3', function(error, response, body) {
+			if (!error) {
+				var filename = JSON.parse(body)[0].path.value;
+				console.log(filename);
+				request(apiUri + 'getLocalMetadata?filename=' + filename, function(error, response, body) {
+					var trackId = JSON.parse(body)[0].mbid.value;
+					console.log(trackId);
+					//obtained trackId not in features?!
+					request(apiUri + 'getFeatureByTrackGuid?trackid=' + 'baf169e8af365c243f08794c7e44b639' + '&feature=' + feature, function(error, response, body) {
+						res.send(body);
+					});
+				});
+			}
+		});
+	});
+	
+	//a first test dymo generator
+	app.get('/localtest', function(req, res) {
 		var featureFilesDir = 'http://localhost:' + PORT + '/features/';
 		var selectedSourceName = 'roll';
 		var uris = [];
