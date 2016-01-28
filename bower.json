@@ -17,6 +17,6 @@
     "tests"
   ],
   "dependencies": {
-    "dymo-generator": "~0.1.2"
+    "dymo-generator": "*"
   }
 }

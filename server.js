@@ -39,7 +39,12 @@
 					console.log(trackId);
 					//obtained trackId not in features?!
 					request(apiUri + 'getFeatureByTrackGuid?trackid=' + 'baf169e8af365c243f08794c7e44b639' + '&feature=' + feature, function(error, response, body) {
-						res.send(body);
+						var generator = new DymoGenerator(undefined, function(){});
+						generator.setCondensationMode(MEAN);
+						DymoTemplates.createAnnotatedBarAndBeatDymo(generator, [JSON.parse(body)], function() {
+							console.log("dymo generated")
+							res.send(generator.dymo.toJsonHierarchy());
+						});
 					});
 				});
 			}
