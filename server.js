@@ -33,18 +33,12 @@
 		request(apiUri + 'findNearestTracks?valence=0.1&arousal=0.5&limit=3', function(error, response, body) {
 			if (!error) {
 				var filename = JSON.parse(body)[0].path.value;
-				console.log(filename);
-				request(apiUri + 'getLocalMetadata?filename=' + filename, function(error, response, body) {
-					var trackId = JSON.parse(body)[0].mbid.value;
-					console.log(trackId);
-					//obtained trackId not in features?!
-					request(apiUri + 'getFeatureByTrackGuid?trackid=' + 'baf169e8af365c243f08794c7e44b639' + '&feature=' + feature, function(error, response, body) {
-						var generator = new DymoGenerator(undefined, function(){});
-						generator.setCondensationMode(MEAN);
-						DymoTemplates.createAnnotatedBarAndBeatDymo(generator, [JSON.parse(body)], function() {
-							console.log("dymo generated")
-							res.send(generator.dymo.toJsonHierarchy());
-						});
+				//obtained trackId not in features?!
+				request(apiUri + "getFeaturesByFilenames?filenames=['" + filename + "']&feature=" + feature, function(error, response, body) {
+					var generator = new DymoGenerator(undefined, function(){});
+					generator.setCondensationMode(MEAN);
+					DymoTemplates.createAnnotatedBarAndBeatDymo(generator, [JSON.parse(body)[0][feature]], function() {
+						res.send(generator.dymo.toJsonHierarchy());
 					});
 				});
 			}
