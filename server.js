@@ -26,7 +26,28 @@
 	app.use(bodyParser.json({limit: '50mb'}));
 	app.use('/features', express.static(__dirname + '/features'));
 	
-	//a first test dymo generator
+	app.get('/getDymoForFilename', function(req, res) {
+		var apiUri = 'http://localhost:8070/';
+		var barbeat = 'afv:BarandBeatTracker';
+		var tempo = 'afv:Tempo';
+		var filename = req.query.filename;
+		var uri = req.query.uri;
+		//obtained trackId not in features?!
+		request(apiUri + "getFeaturesByFilenames?filenames=['" + filename + "']&feature=" + barbeat, function(error, response, body) {
+			barbeat = JSON.parse(body)[0][barbeat];
+			request(apiUri + "getFeaturesByFilenames?filenames=['" + filename + "']&feature=" + tempo, function(error, response, body) {
+				tempo = JSON.parse(body)[0][tempo];
+				var generator = new DymoGenerator(undefined, function(){});
+				generator.setCondensationMode(MEAN);
+				DymoTemplates.createAnnotatedBarAndBeatDymo(generator, [barbeat, tempo], function() {
+					generator.dymo.setSourcePath(uri);
+					res.send(generator.dymo.toJsonHierarchy());
+				});
+			});
+		});
+	});
+	
+	//a first test of dymo generator with alo's API
 	app.get('/apitest', function(req, res) {
 		var apiUri = 'http://localhost:8070/';
 		var feature = 'afv:BarandBeatTracker';
@@ -45,7 +66,7 @@
 		});
 	});
 	
-	//a first test dymo generator
+	//a first test of dymo generator
 	app.get('/localtest', function(req, res) {
 		var featureFilesDir = 'http://localhost:' + PORT + '/features/';
 		var selectedSourceName = 'roll';
