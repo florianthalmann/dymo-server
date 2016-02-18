@@ -3,10 +3,7 @@
 	var fs = require("fs");
 	
 	//import pure js code this way for now
-	eval(fs.readFileSync('bower_components/dymo-generator/dymo-templates.js')+'');
-	eval(fs.readFileSync('bower_components/dymo-generator/dymo-generator.js')+'');
-	eval(fs.readFileSync('bower_components/dymo-generator/feature-loader.js')+'');
-	eval(fs.readFileSync('bower_components/dymo-generator/globals.js')+'');
+	eval(fs.readFileSync('bower_components/dymo-generator/dist/dymo-generator.min.js')+'');
 	eval(fs.readFileSync('bower_components/dymo-core/io/globals.js')+'');
 	eval(fs.readFileSync('bower_components/dymo-core/logic/dymo.js')+'');
 	eval(fs.readFileSync('bower_components/dymo-core/logic/parameter.js')+'');
@@ -40,8 +37,9 @@
 				var generator = new DymoGenerator(undefined, function(){});
 				generator.setCondensationMode(MEAN);
 				DymoTemplates.createAnnotatedBarAndBeatDymo(generator, [barbeat, tempo], function() {
-					generator.dymo.setSourcePath(uri);
-					res.send(generator.dymo.toJsonHierarchy());
+					var dymo = generator.getDymo();
+					dymo.setSourcePath(uri);
+					res.send(dymo.toJsonHierarchy());
 				});
 			});
 		});
@@ -59,7 +57,7 @@
 					var generator = new DymoGenerator(undefined, function(){});
 					generator.setCondensationMode(MEAN);
 					DymoTemplates.createAnnotatedBarAndBeatDymo(generator, [JSON.parse(body)[0][feature]], function() {
-						res.send(generator.dymo.toJsonHierarchy());
+						res.send(generator.getDymo().toJsonHierarchy());
 					});
 				});
 			}
@@ -78,7 +76,7 @@
 		generator.setCondensationMode(MEAN);
 		DymoTemplates.createAnnotatedBarAndBeatDymo(generator, uris, function() {
 			console.log("dymo generated")
-			res.send(generator.dymo.toJsonHierarchy());
+			res.send(generator.getDymo().toJsonHierarchy());
 		});
 	});
 	
