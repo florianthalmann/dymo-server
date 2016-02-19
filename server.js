@@ -3,6 +3,7 @@
 	var fs = require("fs");
 	
 	//import pure js code this way for now
+	var math = require('./bower_components/mathjs/dist/math.js');
 	eval(fs.readFileSync('bower_components/dymo-core/dist/dymo-core.min.js')+'');
 	eval(fs.readFileSync('bower_components/dymo-generator/dist/dymo-generator.min.js')+'');
 	
