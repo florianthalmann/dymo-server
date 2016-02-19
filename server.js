@@ -3,14 +3,8 @@
 	var fs = require("fs");
 	
 	//import pure js code this way for now
+	eval(fs.readFileSync('bower_components/dymo-core/dist/dymo-core.min.js')+'');
 	eval(fs.readFileSync('bower_components/dymo-generator/dist/dymo-generator.min.js')+'');
-	eval(fs.readFileSync('bower_components/dymo-core/io/globals.js')+'');
-	eval(fs.readFileSync('bower_components/dymo-core/logic/dymo.js')+'');
-	eval(fs.readFileSync('bower_components/dymo-core/logic/parameter.js')+'');
-	eval(fs.readFileSync('bower_components/dymo-core/logic/mapping.js')+'');
-	eval(fs.readFileSync('bower_components/dymo-core/math/functioninverter.js')+'');
-	eval(fs.readFileSync('bower_components/dymo-core/navigators/sequential.js')+'');
-	eval(fs.readFileSync('bower_components/dymo-core/navigators/similarity.js')+'');
 	
 	var express = require('express');
 	var bodyParser = require('body-parser');
